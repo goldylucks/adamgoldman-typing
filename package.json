@@ -1,0 +1,33 @@
+{
+  "scripts": {
+    "start": "webpack-dev-server -p",
+    "build": "yarn rimraf dist && cross-env NODE_ENV=PRODUCTION webpack -p",
+    "lint": "eslint src/**/*.js webpack.config.babel.js",
+    "deploy": "surge dist adamgoldman-typing.surge.sh"
+  },
+  "git": {
+    "scripts": {
+      "pre-commit": "yarn lint"
+    }
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-core": "^6.25.0",
+    "babel-eslint": "^7.2.3",
+    "babel-loader": "^7.1.1",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-stage-0": "^6.24.1",
+    "cross-env": "^5.0.1",
+    "eslint": "^4.2.0",
+    "eslint-plugin-import": "^2.7.0",
+    "git-scripts": "^0.2.1",
+    "rimraf": "^2.6.1",
+    "surge": "^0.19.0",
+    "webpack": "^3.2.0",
+    "webpack-dev-server": "^2.5.1",
+    "webpack-html-plugin": "^0.1.1"
+  },
+  "dependencies": {
+    "eslint-config-airbnb-base": "^11.2.0"
+  }
+}

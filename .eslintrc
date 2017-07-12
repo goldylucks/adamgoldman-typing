@@ -1,0 +1,12 @@
+{
+  extends: "airbnb-base",
+  "env": {
+    "browser": true
+  },
+  rules: {
+    "import/order": [2, {"newlines-between": "always"}],
+    "semi": [2, "never"],
+    "no-use-before-define": 0,
+    "no-unexpected-multiline": 2
+  }
+}

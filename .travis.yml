@@ -1,0 +1,10 @@
+language: node_js
+node_js:
+  - "6.10.2"
+script: yarn lint && yarn build
+branches:
+  only:
+  - master
+cache:
+  directories:
+  - node_modules
