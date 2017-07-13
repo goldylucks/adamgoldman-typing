@@ -33,6 +33,8 @@ export default () => {
         focusNextChooseListItem()
       } else if (key === 'ArrowUp') {
         focusPreviousChooseListItem()
+      } else if (key === 'Enter' || key === ' ') {
+        el('activeChooseTextListItem').firstChild.click()
       }
       return
     }
@@ -74,7 +76,10 @@ export default () => {
 
     if (!$activeLetter.nextSibling) {
       gameStatus = 'done'
-      alert(`done in ${getDuration()}`) // eslint-disable-line no-alert
+      // let dom render before presenting the alert
+      setTimeout(() => {
+        alert(`done in ${getDuration()}`) // eslint-disable-line no-alert
+      }, 0)
       return
     }
 
