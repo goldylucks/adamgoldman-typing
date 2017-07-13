@@ -1,12 +1,13 @@
 import textHappy1 from '../texts/happy1'
 import textHappy2 from '../texts/happy2'
+import textHappy3 from '../texts/happy3'
 
-const texts = [textHappy1, textHappy2]
+const texts = [textHappy1, textHappy2, textHappy3]
 
 export default () => {
   const $chooseList = el('chooseTextList')
   const ignoredKeys = getIgnoredKeys()
-  let startingTime = 0
+  let startingTime
   let gameStatus = 'choose' // choose | ready | active | done
 
   document.addEventListener('keydown', onKeydown)
@@ -78,7 +79,7 @@ export default () => {
       gameStatus = 'done'
       // let dom render before presenting the alert
       setTimeout(() => {
-        alert(`done in ${getDuration()}`) // eslint-disable-line no-alert
+        confirm(`done in ${getDuration()}\nRestart?`) ? restart() : goToChoose() // eslint-disable-line no-alert, no-unused-expressions
       }, 0)
       return
     }
@@ -154,7 +155,23 @@ export default () => {
     $activeItem.previousSibling.dataset.js = 'activeChooseTextListItem'
   }
 
+  function restart() {
+    gameStatus = 'ready'
+    document.querySelectorAll('.letter').forEach(resetLetter)
+    makeFirstLetterActive()
+  }
+
+  function resetLetter($letter) {
+    $letter.className = 'letter' // eslint-disable-line no-param-reassign
+  }
+
   function el(jsId) {
     return document.querySelector(`[data-js="${jsId}"]`)
+  }
+
+  function goToChoose() {
+    el('choose').style.display = 'block'
+    el('text').innerHTML = ''
+    gameStatus = 'choose'
   }
 }
