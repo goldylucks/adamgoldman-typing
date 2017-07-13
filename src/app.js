@@ -12,6 +12,7 @@ export default () => {
   function letterToDom(l) {
     const $letter = document.createElement('span')
     $letter.className = 'letter'
+    $letter.dataset.js = 'letter'
     $letter.innerText = l
     el('text').appendChild($letter)
   }
@@ -27,14 +28,16 @@ export default () => {
     }
 
     const { key, altKey, ctrlKey } = evt
-    const $activeLetter = document.querySelector('[data-activeLetter]')
+    const $activeLetter = document.querySelector('[data-active-letter]')
 
     if (key === 'Backspace') {
       if ($activeLetter.previousSibling.length > 1) {
         return
       }
+      delete $activeLetter.dataset.activeLetter
       $activeLetter.className = 'letter'
       $activeLetter.previousSibling.className = 'letter active'
+      $activeLetter.previousSibling.dataset.activeLetter = 'true'
       return
     }
 
@@ -69,6 +72,7 @@ export default () => {
   function onClick({ target }) {
     if (target.dataset.js === 'chooseTextTitle') {
       gameStatus = 'ready'
+      el('choose').style.display = 'none'
       texts.find(t => t.title === target.innerText)
         .body.split('').forEach(letterToDom)
       makeFirstLetterActive()
