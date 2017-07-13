@@ -1,6 +1,10 @@
+import textHappy1 from '../texts/happy1'
+import textHappy2 from '../texts/happy2'
+
+const texts = [textHappy1, textHappy2]
+
 export default () => {
   const $chooseList = el('chooseTextList')
-  const texts = getTexts()
   const ignoredKeys = getIgnoredKeys()
   let startingTime = 0
   let gameStatus = 'choose' // choose | ready | active | done
@@ -23,11 +27,20 @@ export default () => {
   }
 
   function onKeydown(evt) {
+    const { key, altKey, ctrlKey } = evt
+    console.log('key', key)
+    if (gameStatus === 'choose') {
+      if (key === 'ArrowDown') {
+        focusNextChooseListItem()
+      } else if (key === 'ArrowUp') {
+        focusPreviousChooseListItem()
+      }
+      return
+    }
     if (!gameStatus.match(/active|ready/)) {
       return
     }
 
-    const { key, altKey, ctrlKey } = evt
     const $activeLetter = document.querySelector('[data-active-letter]')
 
     if (key === 'Backspace') {
@@ -63,6 +76,7 @@ export default () => {
     if (!$activeLetter.nextSibling) {
       gameStatus = 'done'
       alert(`done in ${getDuration()}`) // eslint-disable-line no-alert
+      return
     }
 
     $activeLetter.nextSibling.className += ' active'
@@ -92,26 +106,30 @@ export default () => {
     return `${minutes}:${seconds}`
   }
 
-  function getTexts() {
-    return [
-      { title: 'Happy 1', body: `Happy things are things that are there to feel good as things that are happy are feeling and it's easy to feel happy as happy things are as happy in a way that feels good as you feel now.` }, // eslint-disable-line
-      { title: 'Happy 2', body: `Happy things are things that are there to get you to feel a feeling  just things that are feeling happy and it's easy to feel happy as happy things are just happy in a way that feels good now.` }, // eslint-disable-line
-    ]
-  }
-
   function injectTextList() {
     texts.map(textToEl)
       .forEach(injectTextItem)
   }
 
-  function textToEl({ title }) {
+  function textToEl(text, idx) {
     const container = document.createElement('li')
-    container.innerHTML = `<a data-js="chooseTextTitle">${title}</a>`
+    if (idx === 0) {
+      container.dataset.activeChooseTextListItem = 'true'
+      container.className = 'active'
+    }
+    container.innerHTML = `<a data-js="chooseTextTitle">${text.title}</a>`
     return container
   }
 
   function injectTextItem($text) {
     $chooseList.appendChild($text)
+  }
+
+  function focusNextChooseListItem() {
+
+  }
+  function focusPreviousChooseListItem() {
+
   }
 
   function el(jsId) {

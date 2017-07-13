@@ -1,1 +1,4 @@
-Happy things are things that are there to get you to feel a feeling  just things that are feeling happy and it's easy to feel happy as happy things are just happy in a way that feels good now.
+export default {
+  title: 'happy 2',
+  body: 'Happy things are things that are there to get you to feel good now in a way of feeling a thing that feeling happy is easy to feel good now as happy as things are happy in a way that feels good now.',
+}
