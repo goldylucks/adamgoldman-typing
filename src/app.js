@@ -28,7 +28,6 @@ export default () => {
 
   function onKeydown(evt) {
     const { key, altKey, ctrlKey } = evt
-    console.log('key', key)
     if (gameStatus === 'choose') {
       if (key === 'ArrowDown') {
         focusNextChooseListItem()
@@ -111,11 +110,15 @@ export default () => {
       .forEach(injectTextItem)
   }
 
-  function textToEl(text, idx) {
+  function textToEl(text, idx, _texts) {
     const container = document.createElement('li')
     if (idx === 0) {
-      container.dataset.activeChooseTextListItem = 'true'
+      container.dataset.js = 'activeChooseTextListItem'
+      container.dataset.first = 'true'
       container.className = 'active'
+    }
+    if (idx === _texts.length - 1) {
+      container.dataset.last = 'true'
     }
     container.innerHTML = `<a data-js="chooseTextTitle">${text.title}</a>`
     return container
@@ -126,10 +129,24 @@ export default () => {
   }
 
   function focusNextChooseListItem() {
-
+    const $activeItem = el('activeChooseTextListItem')
+    if ($activeItem.dataset.last) {
+      return
+    }
+    $activeItem.className = ''
+    delete $activeItem.dataset.js
+    $activeItem.nextSibling.className = 'active'
+    $activeItem.nextSibling.dataset.js = 'activeChooseTextListItem'
   }
   function focusPreviousChooseListItem() {
-
+    const $activeItem = el('activeChooseTextListItem')
+    if ($activeItem.dataset.first) {
+      return
+    }
+    $activeItem.className = ''
+    delete $activeItem.dataset.js
+    $activeItem.previousSibling.className = 'active'
+    $activeItem.previousSibling.dataset.js = 'activeChooseTextListItem'
   }
 
   function el(jsId) {
