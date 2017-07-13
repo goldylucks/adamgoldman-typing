@@ -17,7 +17,7 @@ export default {
       { test: /\.js$/, use: 'babel-loader', include: /src/ },
     ],
   },
-  devtool: isProd ? false : 'source-map',
+  devtool: isProd ? 'cheap-source-map' : 'eval',
   resolve: {
     extensions: ['.js'],
   },
