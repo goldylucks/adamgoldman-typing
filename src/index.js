@@ -1,12 +1,16 @@
-import app from './app'
+import App from './App'
+
+let app = new App()
 
 window.addEventListener('load', () => {
-  app()
+  app.init()
 })
 
 if (module.hot) {
-  module.hot.accept('./app', () => {
-    const nextApp = require('./app').default // eslint-disable-line global-require
-    nextApp()
+  module.hot.accept('./App', () => {
+    app.devTear()
+    const NextApp = require('./App').default // eslint-disable-line global-require
+    app = new NextApp()
+    app.init()
   })
 }
